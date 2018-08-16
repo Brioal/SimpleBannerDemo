@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Banner测试</title>
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+</head>
+<style>
+    /*清空公园有效果*/
+    * {
+        padding: 0;
+        margin: 0;
+    }
+
+    /*清空ul的list效果*/
+    ul {
+        list-style: none;
+    }
+
+    .out {
+        width: 960px;
+        height: 540px;
+        border: 1px solid rgba(121, 123, 126, 0.65);
+        margin: 50px auto;
+        position: relative;
+    }
+
+    .pic {
+        width: 960px;
+        height: 540px;
+    }
+
+    .out .img li {
+        position: absolute;
+    }
+
+    .out .num {
+        position: absolute;
+        left: 0;
+        font-size: 0px;
+        bottom: 20px;
+        margin: auto;
+        width: 100%;
+        text-align: center;
+    }
+
+    .out .btn {
+        position: absolute;
+        width: 30px;
+        height: 60px;
+        background: rgba(0, 0, 0, 0.69);
+        color: rgba(255, 255, 255, 0.66);
+        line-height: 60px;
+        text-align: center;
+        font-size: 35px;
+        top: 50%;
+        margin-top: -30px;
+        cursor: pointer;
+        display: none;
+    }
+
+    .out:hover .btn {
+        display: block;
+    }
+
+    .out .left {
+        left: 0;
+    }
+
+    .out .right {
+        right: 0;
+    }
+
+    .out .num li {
+        width: 20px;
+        height: 20px;
+        background: #666;
+        color: #fff;
+        font-size: 13px;
+        text-align: center;
+        line-height: 20px;
+        border-radius: 50%;
+        display: inline-block;
+        margin: 3px;
+        cursor: pointer;
+    }
+
+    .out .num li.active {
+        background: #e63112;
+    }
+</style>
+<body>
+<!--Banner-->
+<div class="out">
+    <!--图片-->
+    <ul class="img">
+        <li><a href="#"><img class="pic" src="images/1.jpg" alt=""></a></li>
+        <li><a href="#"><img class="pic" src="images/2.jpg" alt=""></a></li>
+        <li><a href="#"><img class="pic" src="images/3.jpg" alt=""></a></li>
+        <li><a href="#"><img class="pic" src="images/5.jpg" alt=""></a></li>
+        <li><a href="#"><img class="pic" src="images/4.jpg" alt=""></a></li>
+    </ul>
+    <!--下标-->
+    <ul class="num">
+        <li class="active">1</li>
+        <li>2</li>
+        <li>3</li>
+        <li>4</li>
+        <li>5</li>
+    </ul>
+    <!--左按钮-->
+    <div class="left btn"><</div>
+    <!--右按钮-->
+    <div class="right btn">></div>
+</div>
+
+<script>
+    var index = 0;
+    // 获取图片的个数
+    var picSize = $(".img li").length;
+    for (var i = 0; i < picSize; i++) {
+        var li = "<li>i</li>";
+        $(".num").append(li);
+    }
+    // 显示第一张图片
+    index = 0;
+    refreshIndex();
+    // 鼠标移动之后active下标
+    $(".num li").mouseover(function () {
+        index = $(this).index();
+        refreshIndex();
+    });
+    // 自动切换定时器
+
+    var t = setInterval(move, 2500);
+
+    // 根据index刷新内容函数
+    function refreshIndex() {
+        $(".img li").eq(index).fadeIn().siblings().fadeOut();
+        $(".num li").eq(index).addClass("active").siblings().removeClass("active");
+    }
+
+    // 定时器的内容
+    function move() {
+        refreshIndex();
+        index++;
+        if (index >= picSize) {
+            index = 0;
+        }
+    }
+
+    // 鼠标移入不切换
+    $(".out").hover(function () {
+        // 取消定时器
+        clearInterval(t);
+    }, function () {
+        // 开始定时器
+        t = setInterval(move, 2500);
+    })
+    // 点击左右切换
+    $(".btn.left").click(function () {
+        index--;
+        if (index < 0) {
+            index = picSize - 1;
+        }
+        refreshIndex();
+    });
+    $(".btn.right").click(function () {
+        index++;
+        if (index = picSize) {
+            index = 0;
+        }
+        refreshIndex();
+    });
+</script>
+</body>
+</html>
